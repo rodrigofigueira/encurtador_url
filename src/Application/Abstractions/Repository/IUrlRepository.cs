@@ -2,5 +2,5 @@
 
 public interface IUrlRepository
 {
-    UrlEntity Post(UrlEntity entity);
+    Task<UrlEntity> Post(UrlEntity entity);
 }
