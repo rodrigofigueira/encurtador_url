@@ -1,4 +1,4 @@
-﻿namespace Service.Mappings;
+﻿namespace Application.Mappings;
 
 public static class UrlMappings
 {

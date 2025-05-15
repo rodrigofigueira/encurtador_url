@@ -1,4 +1,4 @@
-﻿namespace Domain.Interfaces.Repository;
+﻿namespace Application.Abstractions.Repository;
 
 public interface IUrlRepository
 {

@@ -1,4 +1,4 @@
-﻿namespace Service.Tests;
+﻿namespace Application.Tests;
 
 public class UrlPostDtoToEntityTests
 {
