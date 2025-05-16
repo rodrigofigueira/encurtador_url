@@ -1,7 +1,4 @@
-﻿using Application.Abstractions.Service;
-using Shared.DTOs;
-
-namespace Presentation.Endpoints;
+﻿namespace Presentation.Endpoints;
 
 public static class UrlEndpoints
 {

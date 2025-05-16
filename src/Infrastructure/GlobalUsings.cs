@@ -1,0 +1,14 @@
+﻿global using Application.Abstractions.Repositories;
+global using Dapper;
+global using Domain.Entities;
+global using FluentMigrator;
+global using FluentMigrator.Runner;
+global using Infrastructure.Configuration;
+global using Infrastructure.Migrations.Sqlite;
+global using Infrastructure.Repositories.DapperSQLite;
+global using Microsoft.Data.Sqlite;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Options;
+global using System.Data;

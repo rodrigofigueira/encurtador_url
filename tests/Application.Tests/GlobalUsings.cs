@@ -1,4 +1,4 @@
-﻿global using Application.Abstractions.Repository;
+﻿global using Application.Abstractions.Repositories;
 global using Application.Mappings;
 global using Application.Services;
 global using Domain.Entities;
