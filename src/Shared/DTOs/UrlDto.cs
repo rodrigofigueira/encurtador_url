@@ -1,3 +1,3 @@
 ﻿namespace Shared.DTOs;
 
-public record UrlDto(int Id, string Short, string Original);
+public record UrlDto(int Id, string Alias, string Original);

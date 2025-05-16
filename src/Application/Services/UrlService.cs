@@ -2,6 +2,9 @@
 
 public class UrlService(IUrlRepository repository) : IUrlService
 {
-    public async Task<UrlEntity> Post(UrlPostDto urlPostDto) => await repository.Post(urlPostDto.ToEntity());
-
+    public async Task<UrlDto> Post(UrlPostDto urlPostDto)
+    {
+        var postInserted = await repository.Post(urlPostDto.ToEntity());
+        return postInserted.ToDto();
+    }
 }

@@ -2,5 +2,5 @@
 
 public interface IUrlService
 {
-    Task<UrlEntity> Post(UrlPostDto urlPostDto);
+    Task<UrlDto> Post(UrlPostDto urlPostDto);
 }

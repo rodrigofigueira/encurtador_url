@@ -1,4 +1,4 @@
-﻿namespace Application.Tests;
+﻿namespace Application.Tests.Services;
 
 public class UrlServiceTests
 {
