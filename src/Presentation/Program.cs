@@ -9,8 +9,6 @@ var app = builder.Build();
 
 app.ApplyMigrations();
 
-app.MapGet("/", () => "Working...");
-
 app.UseSwagger();
 app.UseSwaggerUI();
 

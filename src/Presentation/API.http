@@ -1,6 +1,6 @@
 @API_HostAddress = http://localhost:5185
 
-GET {{API_HostAddress}}/
+GET {{API_HostAddress}}/health
 Accept: application/json
 
 ###
