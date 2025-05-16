@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace Infrastructure.Tests;
+﻿namespace Infrastructure.Tests;
 
 public class UrlRepositoryDapperTests
 {
