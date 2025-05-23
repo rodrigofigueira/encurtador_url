@@ -7,4 +7,8 @@ public static class UrlMappings
 
     public static UrlDto ToDto(this UrlEntity urlEntity) =>
         new(urlEntity.Id, urlEntity.Alias, urlEntity.Original);
+
+    public static UrlEntity ToEntity(this UrlPutDto urlPutDto)
+        => new(urlPutDto.Id, urlPutDto.Alias, urlPutDto.Original);
+
 }

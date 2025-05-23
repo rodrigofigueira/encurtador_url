@@ -12,6 +12,12 @@ public static class UrlEndpoints
             return Results.Created($"/url/{response.Id}", response);
         });
 
+        app.MapPut("urls", async (UrlPutDto urlPutDto, IUrlService service) =>
+        {
+            var response = await service.Put(urlPutDto);
+            return Results.NoContent();
+        });
+
         return app;
     }
 }

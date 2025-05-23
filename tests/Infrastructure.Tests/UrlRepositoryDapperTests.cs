@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Tests;
+﻿using System.Text;
+
+namespace Infrastructure.Tests;
 
 public class UrlRepositoryDapperTests
 {
@@ -6,14 +8,27 @@ public class UrlRepositoryDapperTests
 
     public UrlRepositoryDapperTests()
     {
-        const string dbFile = "test.db";
+        //const string dbFile = "test.db";
+
+        string dbFile = $"test_{Guid.NewGuid():N}.db";
+        var configJson = $@"{{
+                              ""Database"": {{
+                                ""Provider"": ""sqlite"",
+                                ""ConnectionString"": ""Data Source={dbFile}""
+                              }}
+                            }}";
+
+        var configStream = new MemoryStream(Encoding.UTF8.GetBytes(configJson));
+
+
         if (File.Exists(dbFile))
             File.Delete(dbFile);
 
         var host = Host.CreateDefaultBuilder()
-            .ConfigureAppConfiguration((context, config) =>
+            .ConfigureAppConfiguration((context, builder) =>
             {
-                config.AddJsonFile("appsettings.json");
+                //builder.AddJsonFile("appsettings.json"); // menor precedência
+                builder.AddJsonStream(configStream);     // maior precedência
             })
             .ConfigureServices((context, services) =>
             {
@@ -40,4 +55,20 @@ public class UrlRepositoryDapperTests
         Assert.NotEqual(0, result.Id);
         Assert.Equal("abc123", result.Alias);
     }
+
+    [Fact]
+    public async Task DeveAtualizarUrlComSucesso()
+    {
+        //arrange
+        UrlEntity entity = new(0, "abc123", "https://example.com");
+        UrlEntity result = await _repository.Post(entity);
+        UrlEntity entityUpdate = new(result.Id, "Alias Alterado", "Original Alterado");
+
+        //act
+        bool urlWasUpdated = await _repository.Put(entityUpdate);
+
+        //assert
+        Assert.True(urlWasUpdated);
+    }
+
 }
