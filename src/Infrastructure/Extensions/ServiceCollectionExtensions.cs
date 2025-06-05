@@ -1,33 +1,26 @@
-﻿namespace Infrastructure.Extensions;
+﻿using Infrastructure.Migrations;
+
+namespace Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
     {
-        var dbOptions = new DatabaseOptions();
-        config.GetSection("Database").Bind(dbOptions);
-
         services.Configure<DatabaseOptions>(config.GetSection("Database"));
 
-        if (dbOptions.Provider == "sqlite")
-        {
-            services.AddFluentMigratorCore()
-                .ConfigureRunner(rb => rb
-                    .AddSQLite()
-                    .WithGlobalConnectionString(dbOptions.ConnectionString)
-                    .ScanIn(typeof(Migration_0001_CreateUrlTable).Assembly).For.Migrations())
-                .AddLogging(lb => lb.AddFluentMigratorConsole());
+        var dbOptions = config.GetSection("Database").Get<DatabaseOptions>();
 
-            services.AddScoped<IDbConnection>(sp =>
-            {
-                var options = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-                return new SqliteConnection(options.ConnectionString);
-            });
+        services.AddScoped<IDbConnection>(_ => new NpgsqlConnection(dbOptions!.ConnectionString));
+        services.AddScoped<IUrlRepository, UrlRepository>();
 
-            services.AddScoped<IUrlRepository, UrlRepositoryDapper>();
-        }
+        services.AddFluentMigratorCore()
+        .ConfigureRunner(rb => rb
+            .AddPostgres()
+            .WithGlobalConnectionString(dbOptions!.ConnectionString)
+            .ScanIn(typeof(Migration_0001_CreateUrlTable).Assembly).For.Migrations()
+        )
+        .AddLogging(lb => lb.AddFluentMigratorConsole());
 
-        //futuro configurar a conexão para o postgres
 
         return services;
     }
@@ -35,16 +28,22 @@ public static class ServiceCollectionExtensions
     public static void ApplyMigrations(this IHost host)
     {
         using var scope = host.Services.CreateScope();
-        var dbOptions = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 
-        if (dbOptions.Provider == "sqlite")
+        var dbOptions = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
+        Console.WriteLine("🔧 ApplyMigrations: usando banco " + dbOptions.ConnectionString);
+
+        try
         {
             var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+            Console.WriteLine("🔧 MigrationRunner obtido com sucesso.");
+
             runner.MigrateUp();
+            Console.WriteLine("✅ Migrations aplicadas com sucesso.");
         }
-        else
+        catch (Exception ex)
         {
-            // futuro: aplicar migrations do EF Core aqui
+            Console.WriteLine("❌ Erro ao aplicar migrations: " + ex.Message);
+            throw;
         }
     }
 

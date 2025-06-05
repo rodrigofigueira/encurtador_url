@@ -1,0 +1,5 @@
+{
+  "Database": {
+    "ConnectionString": "Host=;Port=5433;Database=encurtador-url;Username=;Password="
+  }
+}
