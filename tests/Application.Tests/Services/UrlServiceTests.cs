@@ -40,4 +40,20 @@ public class UrlServiceTests
         Assert.True(urlWasUpdated);
     }
 
+    [Fact]
+    public async void Delete_With_Valid_Id_Returns_True()
+    {
+        //arrange
+        var mockRepository = new Mock<IUrlRepository>();
+        mockRepository.Setup(r => r.Delete(It.IsAny<int>()))
+                      .ReturnsAsync(() => true);
+
+        UrlService service = new(mockRepository.Object);
+        //act
+        var urlWasDeleted = await service.Delete(1);
+
+        //assert
+        Assert.True(urlWasDeleted);
+    }
+
 }

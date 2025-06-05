@@ -18,6 +18,13 @@ public static class UrlEndpoints
             return Results.NoContent();
         });
 
+        app.MapDelete("urls/{id}", async (int id, IUrlService service) =>
+        {
+            var response = await service.Delete(id);
+            return Results.NoContent();
+        });
+
+
         return app;
     }
 }

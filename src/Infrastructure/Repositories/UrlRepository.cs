@@ -1,7 +1,16 @@
-﻿namespace Infrastructure.Repositories;
+﻿using static Dapper.SqlMapper;
+
+namespace Infrastructure.Repositories;
 
 public class UrlRepository(IDbConnection connection) : IUrlRepository
 {
+    public async Task<bool> Delete(int id)
+    {
+        string query = @"DELETE from urls WHERE id = @id";
+        int rowsAfected = await connection.ExecuteAsync(query, new { id });
+        return rowsAfected > 0;
+    }
+
     public async Task<UrlEntity> Post(UrlEntity entity)
     {
         const string query = @"
