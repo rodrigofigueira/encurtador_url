@@ -11,3 +11,4 @@ global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Options;
 global using Npgsql;
 global using System.Data;
+global using static Dapper.SqlMapper;

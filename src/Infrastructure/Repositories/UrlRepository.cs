@@ -1,6 +1,4 @@
-﻿using static Dapper.SqlMapper;
-
-namespace Infrastructure.Repositories;
+﻿namespace Infrastructure.Repositories;
 
 public class UrlRepository(IDbConnection connection) : IUrlRepository
 {
