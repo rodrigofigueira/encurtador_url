@@ -1,4 +1,5 @@
-﻿namespace Application.Services;
+﻿
+namespace Application.Services;
 
 public class UrlService(IUrlRepository repository) : IUrlService
 {
@@ -16,5 +17,12 @@ public class UrlService(IUrlRepository repository) : IUrlService
     {
         var url = await repository.Get(id);
         return url is not null ? url.ToDto() : null!;
+    }
+
+    public async Task<UrlPaginatedDto> Get(int pageNumber, int pageSize)
+    {
+        var urls = await repository.Get(pageNumber, pageSize);
+        var count = await repository.Count();
+        return new(urls.ToDto(), count);
     }
 }

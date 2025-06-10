@@ -7,4 +7,5 @@ public interface IUrlService
     Task<bool> Delete(int id);
 
     Task<UrlDto> Get(int id);
+    Task<UrlPaginatedDto> Get(int pageNumber, int pageSize);
 }

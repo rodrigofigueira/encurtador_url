@@ -37,6 +37,16 @@ public static class UrlEndpoints
 
         });
 
+        app.MapGet("urls", async (int pageNumber, int pageSize, IUrlService service) =>
+        {
+            var response = await service.Get(pageNumber: pageNumber, pageSize: pageSize);
+
+            if (response is null)
+                return Results.BadRequest();
+
+            return Results.Ok(response);
+        });
+
         return app;
     }
 }
