@@ -6,4 +6,6 @@ public interface IUrlRepository
     Task<bool> Put(UrlEntity entity);
     Task<bool> Delete(int id);
     Task<UrlEntity> Get(int id);
+    Task<IEnumerable<UrlEntity>> Get(int pageNumber, int pageSize);
+    Task<int> Count();
 }
