@@ -49,11 +49,44 @@ public class UrlServiceTests
                       .ReturnsAsync(() => true);
 
         UrlService service = new(mockRepository.Object);
+
         //act
         var urlWasDeleted = await service.Delete(1);
 
         //assert
         Assert.True(urlWasDeleted);
+    }
+
+    [Fact]
+    public async void Get_With_Valid_Id_Returns_Url()
+    {
+        //arrange
+        var mockRepository = new Mock<IUrlRepository>();
+        mockRepository.Setup(r => r.Get(It.IsAny<int>()))
+                      .ReturnsAsync(() => new UrlEntity(1, "", ""));
+        UrlService service = new(mockRepository.Object);
+
+        //act
+        var urlReturned = await service.Get(1);
+
+        //assert
+        Assert.NotNull(urlReturned);
+    }
+
+    [Fact]
+    public async void Get_With_Valid_Id_Returns_Null()
+    {
+        //arrange
+        var mockRepository = new Mock<IUrlRepository>();
+        mockRepository.Setup(r => r.Get(It.IsAny<int>()))
+                      .ReturnsAsync(() => null!);
+        UrlService service = new(mockRepository.Object);
+
+        //act
+        var urlReturned = await service.Get(1);
+
+        //assert
+        Assert.Null(urlReturned);
     }
 
 }

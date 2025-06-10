@@ -11,6 +11,20 @@ public class UrlRepository(IDbConnection connection) : IUrlRepository
         return rowsAfected > 0;
     }
 
+    public async Task<UrlEntity> Get(int id)
+    {
+        string query = @"SELECT 
+                            id
+                            ,alias
+                            ,original
+                         FROM 
+                            urls
+                         WHERE 
+                            id = @id";
+
+        return await connection.QueryFirstAsync<UrlEntity>(query, new { id });
+    }
+
     public async Task<UrlEntity> Post(UrlEntity entity)
     {
         const string query = @"
